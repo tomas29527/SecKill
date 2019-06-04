@@ -7,6 +7,35 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
+type EtcdConf struct {
+	EtcdServer      []string
+	EtcdDialTimeout int
+}
+
+var EtcdConfObj *EtcdConf
+
+func initEtcdConf() error {
+	server := beego.AppConfig.Strings("prod::etcd_server")
+	logs.Debug("====server:%v", server)
+	timeout, err := beego.AppConfig.Int("prod::etcd_dial_timeout")
+	if err != nil {
+		return err
+	}
+	EtcdConfObj = &EtcdConf{
+		EtcdServer:      server,
+		EtcdDialTimeout: timeout,
+	}
+	return nil
+}
+
+func init() {
+	//etcd配置初始化
+	err := initEtcdConf()
+	if err != nil {
+		panic("init etcd conf is err")
+	}
+}
+
 // beego 日志配置结构体
 type LoggerConfig struct {
 	FileName            string   `json:"filename"`
