@@ -8,8 +8,10 @@ import (
 )
 
 type EtcdConf struct {
-	EtcdServer      []string
-	EtcdDialTimeout int
+	EtcdServer            []string
+	EtcdDialTimeout       int
+	EtcdSeckillPrefixKey  string
+	EtcdSeckillProductKey string
 }
 
 var EtcdConfObj *EtcdConf
